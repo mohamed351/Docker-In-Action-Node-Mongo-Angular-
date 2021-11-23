@@ -1,0 +1,33 @@
+<ng-template #loading>
+    loading ...
+</ng-template>
+<ng-template #data>
+    <form [formGroup]="formEdit" (ngSubmit)="submitData()">
+        <div class="form-group">
+            <label>Title :</label>
+            <input type="text" class="form-control" formControlName="title" placeholder="Title" />
+            <div class="text-danger" *ngIf="Title.touched && Title.invalid ">
+                <span *ngIf="Title.errors.required">
+                    The Title is Required
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group mt-2">
+            <label>Content :</label>
+            <textarea type="text" class="form-control" formControlName="content" placeholder="Content"> </textarea>
+            <div class="text-danger" *ngIf="Content.touched && Content.invalid ">
+                <span *ngIf="Content.errors.required">
+                    The Content is Required
+                </span>
+            </div>
+        </div>
+
+        <button class="btn btn-success mt-2" type="submit" [disabled]="!formEdit.valid"> Submit</button>
+    </form>
+</ng-template>
+
+
+<ng-container *ngIf="this.BlogData == null then loading else data">
+
+</ng-container>

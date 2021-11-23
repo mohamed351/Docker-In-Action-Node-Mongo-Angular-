@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/:/data/db
+  backend:
+    build: ./backend
+    container_name: backend
+    environment:
+      MONGODB_USERNAME: root
+      PASSWORD: example
+      LISTENED_PORT: 9500
+    volumes:
+      - ./backend/:/app
+    ports:
+      - 9500:9500
+    depends_on:
+      - mongodb
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    volumes:
+      - ./frontend/src/:/app/src
+    ports:
+      - 8500:8500
+    depends_on:
+      - backend
